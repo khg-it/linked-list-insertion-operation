@@ -4,9 +4,11 @@
 struct node{
      int data;
      struct node *next;
-};
 
-void traversal(struct node*ptr)
+
+};
+struct node *head=NULL;
+void printlinkedlist(struct node*ptr)
 {
 
     while(ptr!=NULL)
@@ -33,82 +35,85 @@ void searched(struct node *ptr,int data)
                printf("\n %d is not sucessfully searched in linked list",data);
 
             }}
-struct node *insertatbeg(struct node *start,struct node *head,int data){
-         struct node *get=(struct node*)malloc(sizeof(struct node));
-         get->data=data;
-         start->next=head;
-         get->next=start->next;
-         start->next=get;
-         return get;
+struct node *insertatfirst(struct node *first,int data)
+{
+    head=first;
+    struct node *start=(struct node *)malloc(sizeof(struct node));
+    start->data=data;
+    start->next=head;
+    head=start;
+    return head;
+    };
+struct node *insertinbetween(struct node *head,int data,int idx)
+{
+    struct node *ptr=(struct node *)malloc(sizeof(struct node));
+    struct node *p=head;
+    int i=0;
+    while(i!=(idx-1))
+    {
+        p=p->next;
+        i++;
+    }
+    ptr->next=p->next;
+    ptr->data=data;
+    p->next=ptr;
+    return head;
 
 };
 struct node *insertatend(struct node *head,int data)
 {
-        struct node *get=(struct node*)malloc(sizeof(struct node));
-        get->data=data;
-        struct node *ptr=head;
-        while(ptr->next!=NULL)
-        {
-            ptr=ptr->next;
-        }
-        get->next=ptr->next;
-        ptr->next=get;
-        //return head;
+    struct node *kt=(struct node *)malloc(sizeof(struct node));
+    kt->data=data;
+    struct node *p=head;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+
+    }
+    kt->next=p->next;
+    p->next=kt;
+    return head;
 
 
 };
-struct node *insertinbetween(struct node *head,int data,int idx)
+struct node *insertafter(struct node *previous,struct node *head,int data)
 {
-        struct node *bone=(struct node *)malloc(sizeof(struct node));
-         bone->data=data;
-         struct node *pt=head;
-
-        int i;
-        for(i=0;i!=idx-1;i++)
-        {
-             pt=pt->next;
-
-        }
-        bone->next=pt->next;
-        pt->next=bone;
-        return head;
-
+    struct node *ptr=(struct node *)malloc(sizeof(struct node));
+    ptr->next=previous->next;
+    previous->next=ptr;
+    ptr->data=data;
+    return head;
 };
-
 int main()
 {
-
-
-    struct node *start=(struct node *)malloc(sizeof(struct node));
-    struct node *head;
+    struct node *ptr;
     struct node *second;
     struct node *third;
-
-
-    head=(struct node*)malloc(sizeof(struct node));
+    ptr=(struct node*)malloc(sizeof(struct node));
     second=(struct node*)malloc(sizeof(struct node));
     third=(struct node*)malloc(sizeof(struct node));
-    start->next=head;
-    head->data=1;
-    head->next=second;
+
+    ptr->data=1;
+    ptr->next=second;
     second->data=2;
     second->next=third;
     third->data=3;
     third->next=NULL;
-    printf("\n traversal of linked list before operations.");
-    traversal(head);
-    //searched(head,6);
-    printf("\n after insertion at the beginning of linked list.");
-    head=insertatbeg(start,head,15);
-    traversal(head);
-    printf("\n after insertion at the end of linked list.");
-    insertatend(head,12);
-    traversal(head);
-    printf("\n after insertion in between of linked list.");
-    head=insertinbetween(head,45,3);
-    traversal(head);
-
-
+    printf("\n linked list before insertion");
+    printlinkedlist(ptr);
+    printf("\n linked list after insertion at first");
+    ptr=insertatfirst(ptr,11);
+    printlinkedlist(ptr);
+    searched(ptr,2);
+    ptr=insertinbetween(ptr,7,1);
+    printf("\n linked list in between");
+    printlinkedlist(ptr);
+    printf("\n linked list at end");
+    ptr=insertatend(head,9);
+    printlinkedlist(head);
+    printf("n linked list after a node");
+    head=insertafter(second,ptr,56);
+    printlinkedlist(ptr);
 
 
 }
